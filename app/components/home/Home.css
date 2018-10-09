@@ -1,0 +1,15 @@
+.connectionBlock {
+  padding-top: 5px;
+}
+
+.connectionBlockPaper {
+  padding: 10px;
+}
+
+.controlsBlock {
+  text-align: right;
+}
+
+.controlsButton {
+  margin-left: 5px !important;
+}

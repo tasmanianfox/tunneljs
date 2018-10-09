@@ -15,33 +15,36 @@ export type ConnectionType = {
 };
 
 type Props = {
+  addConnection: () => void,
   +connections: Array<ConnectionType>
 };
-
-function renderAddButton() {
-  return (
-    <Grid
-      key="btnAdd"
-      item
-      className={styles.connectionBlock}
-    >
-      <Button variant="raised" fullWidth mini color="primary">
-        <AddIcon />
-        Add a new connection
-      </Button>
-    </Grid>
-  );
-}
 
 export default class ConnectionsList extends Component<Props> {
   props: Props;
 
+  renderAddButton() {
+    const { addConnection } = this.props;
+
+    return (
+      <Grid
+        key="btnAdd"
+        item
+        className={styles.connectionBlock}
+      >
+        <Button variant="raised" fullWidth mini color="primary" onClick={addConnection}>
+          <AddIcon />
+          Add a new connection
+        </Button>
+      </Grid>
+    );
+  }
+
   render() {
     const { connections } = this.props;
-    const connectionBlocks = connections.map((connection, index) => (
-      <Connection key={index} {...connection} />
+    const connectionBlocks = connections.map((connection) => (
+      <Connection key={connection.id} {...connection} />
     ));
-    connectionBlocks.push(renderAddButton());
+    connectionBlocks.push(this.renderAddButton());
 
     return (
       <Grid justify="center" xl={4} lg={6} md={6} sm={8} xs={12} item direction="column" container>

@@ -6,6 +6,8 @@ export type NetworkNode = {
 };
 
 export type Connection = {
+  id: string,
+  name: string,
   local: NetworkNode,
   gate: NetworkNode,
   target: NetworkNode

@@ -59,7 +59,6 @@
       "error",
       { "extensions": [".js", ".jsx"] }
     ],
-    "react/no-array-index-key": "off",
     "react/prefer-stateless-function": "off"
   },
   "plugins": ["flowtype", "import", "promise", "compat", "react"],

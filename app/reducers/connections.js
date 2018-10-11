@@ -1,5 +1,5 @@
 import md5 from 'md5';
-import { ADD_CONNECTION, EDIT_CONNECTION } from '../actions/home';
+import { ADD_CONNECTION } from '../actions/home';
 import type { Action } from './types';
 
 const connectionTemplate = {

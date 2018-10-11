@@ -16,7 +16,8 @@ export type ConnectionType = {
 
 type Props = {
   addConnection: () => void,
-  +connections: Array<ConnectionType>
+  +connections: Array<ConnectionType>,
+  deleteConnectionClick: (ConnectionType) => void
 };
 
 export default class ConnectionsList extends Component<Props> {
@@ -40,9 +41,12 @@ export default class ConnectionsList extends Component<Props> {
   }
 
   render() {
-    const { connections } = this.props;
+    const { connections, deleteConnectionClick } = this.props;
     const connectionBlocks = connections.map((connection) => (
-      <Connection key={connection.id} {...connection} />
+      <Connection 
+        key={connection.id} 
+        connection={connection}
+        onRemoveClick={() => { deleteConnectionClick(connection) }} />
     ));
     connectionBlocks.push(this.renderAddButton());
 

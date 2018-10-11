@@ -12,21 +12,19 @@ import Typography from '@material-ui/core/Typography';
 
 import styles from './Home.css';
 
-type Auth = {
-  user: string
-};
+import { Connection as ConnectionType } from '../../types/connection'
 
 type Props = {
-  auth: Auth,
-  name: string,
-  gate: NetworkNode
+  connection: ConnectionType,
+  onRemoveClick: (ConnectionType) => {}
 };
 
 export default class Connection extends Component<Props> {
   props: Props;
 
   render() {
-    const { auth, name, gate } = this.props;
+    const { connection, onRemoveClick } = this.props;
+    const { auth, name, gate } = connection;
 
     return (
       <Grid item className={styles.connectionBlock}>
@@ -64,6 +62,7 @@ export default class Connection extends Component<Props> {
                 mini
                 aria-label="Remove"
                 className={styles.controlsButton}
+                onClick={onRemoveClick}
               >
                 <DeleteIcon />
               </Button>

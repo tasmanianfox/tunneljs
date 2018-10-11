@@ -6,7 +6,8 @@ import * as HomeActions from '../actions/home';
 
 function mapStateToProps(state) {
   return {
-    connections: state.connections
+    connections: state.connections,
+    deleteDialog: state.dialogDeleteConnection
   };
 }
 

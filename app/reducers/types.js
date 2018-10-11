@@ -1,17 +1,5 @@
 import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
-
-export type NetworkNode = {
-  host: ?string,
-  port: ?int
-};
-
-export type Connection = {
-  id: string,
-  name: string,
-  local: NetworkNode,
-  gate: NetworkNode,
-  target: NetworkNode
-};
+import { Connection } from '../types/connection';
 
 export type appStateType = {
   +connections: Array<Connection>

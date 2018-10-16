@@ -11,14 +11,23 @@ type Props = {
   addConnection: () => void,
   +connections: Array<Connection>,
   deleteConnectionClick: () => void,
-  deleteDialog: DialogDeleteConnectionState
+  deleteDialog: DialogDeleteConnectionState,
+  onDeleteDialogYesClick: () => void,
+  onDeleteDialogNoClick: () => void
 };
 
 export default class Home extends Component<Props> {
   props: Props;
 
   render() {
-    const { addConnection, connections, deleteDialog, deleteConnectionClick } = this.props;
+    const { 
+      addConnection, 
+      connections, 
+      deleteDialog, 
+      deleteConnectionClick,
+      onDeleteDialogYesClick,
+      onDeleteDialogNoClick
+    } = this.props;
 
     return (
       <Grid justify="center" container>
@@ -27,7 +36,11 @@ export default class Home extends Component<Props> {
           connections={connections} 
           deleteConnectionClick={deleteConnectionClick}
         />
-        <DeleteDialog { ...deleteDialog } />
+        <DeleteDialog 
+          { ...deleteDialog } 
+          onYesClick={connection => { onDeleteDialogYesClick(connection); }}
+          onNoClick={connection => { onDeleteDialogNoClick(connection); }}
+        />
       </Grid>
     );
   }

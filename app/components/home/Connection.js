@@ -28,7 +28,7 @@ export default class Connection extends Component<Props> {
 
     return (
       <Grid item className={styles.connectionBlock}>
-        <Paper className={styles.connectionBlockPaper}>
+        <Paper className={styles.padding10}>
           <Grid direction="row" container>
             <Grid item xl={8} lg={8} sm={8} xs={12}>
               <Typography variant="title" gutterBottom>

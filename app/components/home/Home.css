@@ -2,7 +2,7 @@
   padding-top: 5px;
 }
 
-.connectionBlockPaper {
+.padding10 {
   padding: 10px;
 }
 
@@ -12,4 +12,8 @@
 
 .controlsButton {
   margin-left: 5px !important;
+}
+
+.deleteDialogItemBlock {
+  margin: 5px !important;
 }

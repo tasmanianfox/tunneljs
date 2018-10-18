@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -9,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PowerIcon from '@material-ui/icons/Power';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import routes from '../../constants/routes.json';
 
 import styles from './Home.css';
 
@@ -40,13 +42,13 @@ export default class Connection extends Component<Props> {
             </Grid>
             <Grid xl={4} lg={4} sm={4} xs={12} item className={styles.controlsBlock}>
               <Button
-                variant="fab"
-                color="primary"
-                mini
-                aria-label="Connect"
-                className={styles.controlsButton}
-              >
-                <PowerIcon />
+                    variant="fab"
+                    color="primary"
+                    mini
+                    aria-label="Connect"
+                    className={styles.controlsButton}
+                  >
+                  <PowerIcon />
               </Button>
               <Button
                 variant="fab"
@@ -54,7 +56,7 @@ export default class Connection extends Component<Props> {
                 aria-label="Edit"
                 className={styles.controlsButton}
               >
-                <EditIcon />
+                <Link to={`${routes.EDIT}/${connection.id}`}><EditIcon /></Link>
               </Button>
               <Button
                 variant="fab"

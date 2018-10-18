@@ -71,7 +71,7 @@ class DeleteDialog extends Component<Props> {
                 { renderGateBlock(connection.gate) }
                 { renderDownarrow() }
                 { renderTargetBlock(connection.target) }    
-                </Grid>
+            </Grid>
         </DialogContent>;
     }
 

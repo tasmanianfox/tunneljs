@@ -1,17 +1,16 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import routes from './constants/routes.json';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
+import EditPage from './containers/EditPage';
 
 export default () => (
   <App>
-    <CssBaseline>
       <Switch>
+        <Route path={`${routes.EDIT}/:id`} component={EditPage} />
         <Route path={routes.HOME} component={HomePage} />
       </Switch>
-    </CssBaseline>
   </App>
 );

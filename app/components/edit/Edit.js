@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import HelpIcon from '@material-ui/icons/Help';
 import TextField from '@material-ui/core/TextField';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -27,13 +28,18 @@ import { Connection } from '../../types/connection'
 import { Link } from 'react-router-dom';
 
 type Props = {
-  activeStep?: integer
-    //connection: Connection;
+  connection: ?Connection,
+  getConnection: (int) => void,
+  match: object,
+  step: integer
 };
-export default class Home extends Component<Props> {
+export default class Edit extends Component<Props> {
   props: Props;
 
   renderStepLocal() {
+    const { connection } = this.props;
+    const node = connection.local;
+
     return <div>
         <Typography component="h2" variant="headline" gutterBottom>
           Local
@@ -41,10 +47,12 @@ export default class Home extends Component<Props> {
 
         <Input
           placeholder="Host"
+          value={node.host}
         />
         <span style={{margin: '0px 10px'}}>:</span>
         <Input
           placeholder="Port"
+          value={node.port}
         />
         <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
           In this section you need to specify the destination endpoint for SSH tunnel on your machine.
@@ -108,12 +116,10 @@ export default class Home extends Component<Props> {
 
   renderContent() {
     const {
-      activeStep
+      step
     } = this.props;
 
-    console.log(activeStep);
-
-    switch (activeStep) {
+    switch (step) {
       case 0:
         return this.renderStepLocal();
       case 1:
@@ -127,67 +133,72 @@ export default class Home extends Component<Props> {
 
   renderSshExample() {
     const {
-      activeStep
+      step
     } = this.props;
 
-    return <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
-      <strong>A hint: OpenSSH command.</strong> 
-      This is an example of OpenSSH command which forwards a SSH connection to local port.
-      Highlighted part of the command shows command line options which are going to be modified on current tab.
+    return <div>
+      <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
+        <strong>A hint: OpenSSH command.</strong> 
+        This is an example of OpenSSH command which forwards a SSH connection to local port.
+        Highlighted part of the command shows command line options which are going to be modified on current tab.
+      </Typography>
       <div className={styles.exampleCommand}>
         <span>ssh -f -N -L </span>
-        <span style={{color: activeStep === 2 ? 'red' : 'black'}}>-i ~/.ssh/id_rsa </span>
-        <span style={{color: activeStep === 0 ? 'red' : 'black'}}>127.0.0.1:3307</span>
+        <span style={{color: step === 2 ? 'red' : 'black'}}>-i ~/.ssh/id_rsa </span>
+        <span style={{color: step === 0 ? 'red' : 'black'}}>127.0.0.1:3307</span>
         <span>:</span>
-        <span style={{color: activeStep === 2 ? 'red' : 'black'}}>mysql.internal.example.com:3306 </span>
-        <span style={{color: activeStep === 1 ? 'red' : 'black'}}>user@example.com:22</span>
+        <span style={{color: step === 2 ? 'red' : 'black'}}>mysql.internal.example.com:3306 </span>
+        <span style={{color: step === 1 ? 'red' : 'black'}}>user@example.com:22</span>
       </div>
-    </Typography>;
+    </div>;
   }
 
   render() {
-    // match.params.id
     const {
-      activeStep
+      connection,
+      getConnection,
+      match,
+      step
     } = this.props;
+
+    if (connection === null) {
+      getConnection(match.params.id);
+      return <div />;
+    }
 
 
     return <Grid
-    container
-    spacing={0}
-    direction="column"
-    justify="center"
-    alignItems="center"
-  >
-    <Grid
       container
-      item
       spacing={0}
       direction="column"
       justify="center"
-      xs={12} s={8} md={6} lg={6}
+      alignItems="center"
     >
-      <Stepper nonLinear activeStep={activeStep}>
-        <Step key="local">
-          <StepLabel>Local</StepLabel>
-        </Step>
-        <Step key="gate">
-          <StepLabel>Gate</StepLabel>
-        </Step>
-        <Step key="target">
-          <StepLabel>Target</StepLabel>
-        </Step>
-      </Stepper>
+      <Grid
+        container
+        item
+        spacing={0}
+        direction="column"
+        justify="center"
+        xs={12} s={8} md={6} lg={6}
+      >
+        <Stepper nonLinear activeStep={step}>
+          <Step key="local">
+            <StepLabel>Local</StepLabel>
+          </Step>
+          <Step key="gate">
+            <StepLabel>Gate</StepLabel>
+          </Step>
+          <Step key="target">
+            <StepLabel>Target</StepLabel>
+          </Step>
+        </Stepper>
 
-      { this.renderContent() }
-      { this.renderSshExample() }
-    </Grid>
+        { this.renderContent() }
+        { this.renderSshExample() }
+      </Grid>
   
-  </Grid> 
+    </Grid> 
             //<Link to="/">Go back</Link><br />
   }
-}
-
-Home.defaultProps = {
-  activeStep: 0
 }

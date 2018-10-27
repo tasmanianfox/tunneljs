@@ -56,7 +56,9 @@ export default class Connection extends Component<Props> {
                 aria-label="Edit"
                 className={styles.controlsButton}
               >
-                <Link to={`${routes.EDIT}/${connection.id}`}><EditIcon /></Link>
+                <Link to={`${routes.EDIT}/${connection.id}`}>
+                  <EditIcon />
+                </Link>
               </Button>
               <Button
                 variant="fab"

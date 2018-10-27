@@ -10,7 +10,7 @@ import ConnectionList from './ConnectionsList';
 
 type Props = {
   addConnection: () => void,
-  +connections: Array<Connection>,
+  connections: Array<Connection>,
   deleteConnectionClick: () => void,
   deleteDialog: DialogDeleteConnectionState,
   onDeleteDialogYesClick: () => void,

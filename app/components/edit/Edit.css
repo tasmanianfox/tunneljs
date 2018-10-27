@@ -1,0 +1,10 @@
+.descriptionBlock {
+    margin: 20px 0px 0px 0px !important;
+}
+
+.exampleCommand {
+    font-family: "Courier New", Courier, monospace;
+    background-color: lavender;
+    padding: 5px;
+    margin: 20px 0px !important;
+}

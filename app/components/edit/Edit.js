@@ -25,19 +25,20 @@ import styles from './Edit.css';
 import { Connection } from '../../types/connection'
 
 
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 type Props = {
   connection: ?Connection,
   getConnection: (int) => void,
   match: object,
+  connectionPropertyUpdated: (object, string, string) => void,
   step: integer
 };
 export default class Edit extends Component<Props> {
   props: Props;
 
   renderStepLocal() {
-    const { connection } = this.props;
+    const { connection, connectionPropertyUpdated } = this.props;
     const node = connection.local;
 
     return <div>
@@ -48,11 +49,13 @@ export default class Edit extends Component<Props> {
         <Input
           placeholder="Host"
           value={node.host}
+          onChange={e => { connectionPropertyUpdated('local', 'host', e.target.value) }}
         />
         <span style={{margin: '0px 10px'}}>:</span>
         <Input
           placeholder="Port"
           value={node.port}
+          onChange={e => { connectionPropertyUpdated('local', 'port', e.target.value) }}
         />
         <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
           In this section you need to specify the destination endpoint for SSH tunnel on your machine.

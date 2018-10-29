@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
 const reducer = (state, action) => {
   let newAction = action;
 
+  // Really want to implement this in a different way
   switch (action.type) {
     case GET_CONNECTION:
       newAction = Object.assign({}, action, {

@@ -1,7 +1,7 @@
 // @flow
 import { Connection } from '../types/connection';
 
-import { GET_CONNECTION, NODE_PROPERTY_UPDATED } from '../actions/page_edit';
+import { GET_CONNECTION, NODE_PROPERTY_UPDATED, NEXT_PAGE, PREVIOUS_PAGE } from '../actions/page_edit';
 
 type EditPageState = {
   connection: ?Connection,
@@ -44,6 +44,14 @@ export default function pageEdit(state: EditPageState = defaultState, action: Ac
       break;
     case NODE_PROPERTY_UPDATED:
       newState =  updateNodeProperty(state, action);
+      break;
+    case NEXT_PAGE:
+      newState = { ...newState };
+      newState = Object.assign(newState, { step: newState.step + 1 });
+      break;
+    case PREVIOUS_PAGE:
+      newState = { ...newState };
+      newState = Object.assign(newState, { step: newState.step - 1 });
       break;
     default:
       break;

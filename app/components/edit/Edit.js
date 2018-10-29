@@ -10,6 +10,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import HelpIcon from '@material-ui/icons/Help';
 import TextField from '@material-ui/core/TextField';
 import Stepper from '@material-ui/core/Stepper';
@@ -29,9 +31,11 @@ import { Connection } from '../../types/connection'
 
 type Props = {
   connection: ?Connection,
+  connectionPropertyUpdated: (object, string, string) => void,
   getConnection: (int) => void,
   match: object,
-  connectionPropertyUpdated: (object, string, string) => void,
+  nextPage: () => void,
+  previousPage: () => void,
   step: integer
 };
 export default class Edit extends Component<Props> {
@@ -73,6 +77,9 @@ export default class Edit extends Component<Props> {
   }
 
   renderStepGate() {
+    const { connection, connectionPropertyUpdated } = this.props;
+    const node = connection.gate;
+
     return <div>
         <Typography component="h2" variant="headline" gutterBottom>
           Gate
@@ -80,10 +87,14 @@ export default class Edit extends Component<Props> {
 
         <Input
           placeholder="Host"
+          value={node.host}
+          onChange={e => { connectionPropertyUpdated('gate', 'host', e.target.value) }}
         />
         <span style={{margin: '0px 10px'}}>:</span>
         <Input
           placeholder="Port"
+          value={node.port}
+          onChange={e => { connectionPropertyUpdated('gate', 'port', e.target.value) }}
         />
         <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
           Here you should configure a connection with remote server which will be used to forward the connection.
@@ -92,6 +103,9 @@ export default class Edit extends Component<Props> {
   }
 
   renderStepTarget() {
+    const { connection, connectionPropertyUpdated } = this.props;
+    const node = connection.target;
+
     return <div>
         <Typography component="h2" variant="headline" gutterBottom>
           Target
@@ -99,10 +113,14 @@ export default class Edit extends Component<Props> {
 
         <Input
           placeholder="Host"
+          value={node.host}
+          onChange={e => { connectionPropertyUpdated('target', 'host', e.target.value) }}
         />
         <span style={{margin: '0px 10px'}}>:</span>
         <Input
           placeholder="Port"
+          value={node.port}
+          onChange={e => { connectionPropertyUpdated('target', 'port', e.target.value) }}
         />
         <Typography variant="body1" gutterBottom className={styles.descriptionBlock}>
           This is address of target machine. In other words, this should be host and port of remote server which accepts connections
@@ -147,7 +165,7 @@ export default class Edit extends Component<Props> {
       </Typography>
       <div className={styles.exampleCommand}>
         <span>ssh -f -N -L </span>
-        <span style={{color: step === 2 ? 'red' : 'black'}}>-i ~/.ssh/id_rsa </span>
+        <span style={{color: step === 1 ? 'red' : 'black'}}>-i ~/.ssh/id_rsa </span>
         <span style={{color: step === 0 ? 'red' : 'black'}}>127.0.0.1:3307</span>
         <span>:</span>
         <span style={{color: step === 2 ? 'red' : 'black'}}>mysql.internal.example.com:3306 </span>
@@ -161,6 +179,8 @@ export default class Edit extends Component<Props> {
       connection,
       getConnection,
       match,
+      nextPage,
+      previousPage,
       step
     } = this.props;
 
@@ -199,9 +219,50 @@ export default class Edit extends Component<Props> {
 
         { this.renderContent() }
         { this.renderSshExample() }
+
+        <Grid
+          container
+          item
+          spacing={0}
+          direction="row"
+          justify="space-between"
+        >
+          <Grid
+            container
+            item
+            spacing={0}
+            justify="flex-start"
+            xs={6} s={6} md={6} lg={6}
+          >
+            <Button
+              variant="fab"
+              color="primary"
+              mini
+              aria-label="Previous"
+              onClick={() => { previousPage(); }}
+            >
+              <ArrowBackIcon />
+            </Button>
+          </Grid>
+          <Grid
+            container
+            item
+            spacing={0}
+            justify="flex-end"
+            xs={6} s={6} md={6} lg={6}
+          >
+            <Button
+              variant="fab"
+              color="primary"
+              mini
+              aria-label="Next"
+              onClick={() => { nextPage(); }}
+            >
+              <ArrowForwardIcon />
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
-  
     </Grid> 
-            //<Link to="/">Go back</Link><br />
   }
 }

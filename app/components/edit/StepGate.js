@@ -16,7 +16,8 @@ const { dialog } = require('electron').remote;
 
 type Props = {
   auth: ConnectionAuth,
-  connectionPropertyUpdated: (object, string, string) => void,
+  authPropertyUpdated: (string, string) => void,
+  nodePropertyUpdated: (object, string, string) => void,
   node: NetworkNode
 };
 
@@ -24,26 +25,40 @@ export default class StepGate extends Component<Props> {
   props: Props;
 
   renderCredentials() {
-    const { auth } = this.props;
+    const { auth, authPropertyUpdated } = this.props;
 
     if (auth.isMethodPassword()) {
       return (
         <div>
-          <Input placeholder="Password" value="" type="password" />
+          <Input
+            placeholder="Password"
+            value={auth.password || ''}
+            type="password"
+            onChange={e => {
+              authPropertyUpdated('password', e.target.value);
+            }}
+          />
         </div>
       );
     }
     if (auth.isMethodPrivateKey()) {
       return (
         <div>
-          <Input placeholder="Path to private key" value="" />
+          <Input
+            placeholder="Path to private key"
+            value={auth.privateKeyPath || ''}
+            onChange={e => {
+              authPropertyUpdated('privateKeyPath', e.target.value);
+            }}
+            style={{ width: '100%' }}
+          />
 
           <Button
             variant="contained"
             color="primary"
             onClick={() => {
               dialog.showOpenDialog({ properties: ['openFile'] }, fileNames => {
-                console.log(fileNames);
+                authPropertyUpdated('privateKeyPath', fileNames[0]);
               });
             }}
           >
@@ -57,7 +72,7 @@ export default class StepGate extends Component<Props> {
   }
 
   render() {
-    const { auth, node, connectionPropertyUpdated } = this.props;
+    const { auth, authPropertyUpdated, node, nodePropertyUpdated } = this.props;
 
     return (
       <div>
@@ -69,7 +84,7 @@ export default class StepGate extends Component<Props> {
           label="Host"
           value={node.host || ''}
           onChange={e => {
-            connectionPropertyUpdated('gate', 'host', e.target.value);
+            nodePropertyUpdated('gate', 'host', e.target.value);
           }}
           margin="normal"
         />
@@ -77,7 +92,7 @@ export default class StepGate extends Component<Props> {
           label="Port"
           value={node.port || ''}
           onChange={e => {
-            connectionPropertyUpdated('gate', 'port', e.target.value);
+            nodePropertyUpdated('gate', 'port', e.target.value);
           }}
           margin="normal"
         />
@@ -86,7 +101,9 @@ export default class StepGate extends Component<Props> {
           <Input
             placeholder="User"
             value={auth.user || ''}
-            onChange={() => {}}
+            onChange={e => {
+              authPropertyUpdated('user', e.target.value);
+            }}
           />
         </div>
 
@@ -94,14 +111,28 @@ export default class StepGate extends Component<Props> {
           <strong>Auth method: </strong>
           <FormControlLabel
             value="password"
-            control={<Radio color="primary" />}
+            control={
+              <Radio
+                color="primary"
+                onChange={e => {
+                  authPropertyUpdated('method', e.target.value);
+                }}
+              />
+            }
             label="Password"
             labelPlacement="end"
             checked={auth.isMethodPassword()}
           />
           <FormControlLabel
             value="private_key"
-            control={<Radio color="primary" />}
+            control={
+              <Radio
+                color="primary"
+                onChange={e => {
+                  authPropertyUpdated('method', e.target.value);
+                }}
+              />
+            }
             label="Private key"
             labelPlacement="end"
             checked={auth.isMethodPrivateKey()}

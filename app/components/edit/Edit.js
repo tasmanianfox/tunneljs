@@ -21,8 +21,9 @@ import styles from './Edit.css';
 import { Connection } from '../../types/connection';
 
 type Props = {
+  authPropertyUpdated: (string, string) => void,
   connection: ?Connection,
-  connectionPropertyUpdated: (object, string, string) => void,
+  nodePropertyUpdated: (object, string, string) => void,
   getConnection: int => void,
   match: object,
   nextPage: () => void,
@@ -32,65 +33,8 @@ type Props = {
 export default class Edit extends Component<Props> {
   props: Props;
 
-  renderStepLocal() {
-    const { connection, connectionPropertyUpdated } = this.props;
-    const node = connection.local;
-
-    return (
-      <div>
-        <Typography component="h2" variant="headline" gutterBottom>
-          Local
-        </Typography>
-
-        <Input
-          placeholder="Host"
-          value={node.host}
-          onChange={e => {
-            connectionPropertyUpdated('local', 'host', e.target.value);
-          }}
-        />
-        <span style={{ margin: '0px 10px' }}>:</span>
-        <Input
-          placeholder="Port"
-          value={node.port}
-          onChange={e => {
-            connectionPropertyUpdated('local', 'port', e.target.value);
-          }}
-        />
-        <Typography
-          variant="body1"
-          gutterBottom
-          className={styles.descriptionBlock}
-        >
-          In this section you need to specify the destination endpoint for SSH
-          tunnel on your machine.
-        </Typography>
-
-        <Typography
-          variant="body1"
-          gutterBottom
-          className={styles.descriptionBlock}
-        >
-          <strong>Host.</strong> If connection must be available only locally,
-          please use &quot;127.0.0.1&quot;. If port needs to be exposed (for
-          example, to your home network), please specify external IP address of
-          your machine.
-        </Typography>
-
-        <Typography
-          variant="body1"
-          gutterBottom
-          className={styles.descriptionBlock}
-        >
-          <strong>Port.</strong> If this field is empty, the application will
-          try to find a local port which is not in use.
-        </Typography>
-      </div>
-    );
-  }
-
   renderStepTarget() {
-    const { connection, connectionPropertyUpdated } = this.props;
+    const { connection, nodePropertyUpdated } = this.props;
     const node = connection.target;
 
     return (
@@ -103,7 +47,7 @@ export default class Edit extends Component<Props> {
           placeholder="Host"
           value={node.host || ''}
           onChange={e => {
-            connectionPropertyUpdated('target', 'host', e.target.value);
+            nodePropertyUpdated('target', 'host', e.target.value);
           }}
         />
         <span style={{ margin: '0px 10px' }}>:</span>
@@ -111,7 +55,7 @@ export default class Edit extends Component<Props> {
           placeholder="Port"
           value={node.port || ''}
           onChange={e => {
-            connectionPropertyUpdated('target', 'port', e.target.value);
+            nodePropertyUpdated('target', 'port', e.target.value);
           }}
         />
         <Typography
@@ -139,14 +83,19 @@ export default class Edit extends Component<Props> {
   }
 
   renderContent() {
-    const { connection, connectionPropertyUpdated, step } = this.props;
+    const {
+      authPropertyUpdated,
+      connection,
+      nodePropertyUpdated,
+      step
+    } = this.props;
 
     switch (step) {
       case 0:
         return (
           <StepLocal
             node={connection.local}
-            connectionPropertyUpdated={connectionPropertyUpdated}
+            nodePropertyUpdated={nodePropertyUpdated}
           />
         );
       case 1:
@@ -154,7 +103,8 @@ export default class Edit extends Component<Props> {
           <StepGate
             node={connection.gate}
             auth={connection.auth}
-            connectionPropertyUpdated={connectionPropertyUpdated}
+            authPropertyUpdated={authPropertyUpdated}
+            nodePropertyUpdated={nodePropertyUpdated}
           />
         );
       case 2:

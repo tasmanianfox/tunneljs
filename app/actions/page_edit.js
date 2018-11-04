@@ -1,24 +1,31 @@
 export const GET_CONNECTION = 'EDIT.GET_CONNECTION';
+export const AUTH_PROPERTY_UPDATED = 'EDIT.AUTH_PROPERTY_UPDATED';
 export const NODE_PROPERTY_UPDATED = 'EDIT.NODE_PROPERTY_UPDATED';
 export const NEXT_PAGE = 'EDIT.NEXT_PAGE';
 export const PREVIOUS_PAGE = 'EDIT.PREVIOUS_PAGE';
 
 export const getConnection = id => ({
-    id,
-    type: GET_CONNECTION
-})
+  id,
+  type: GET_CONNECTION
+});
 
-export const connectionPropertyUpdated = (nodeName, propertyName, value) => ({
-    nodeName,
-    propertyName,
-    type: NODE_PROPERTY_UPDATED, 
-    value
+export const authPropertyUpdated = (propertyName, value) => ({
+  propertyName,
+  type: AUTH_PROPERTY_UPDATED,
+  value
+});
+
+export const nodePropertyUpdated = (nodeName, propertyName, value) => ({
+  nodeName,
+  propertyName,
+  type: NODE_PROPERTY_UPDATED,
+  value
 });
 
 export const nextPage = () => ({
-    type: NEXT_PAGE
+  type: NEXT_PAGE
 });
 
 export const previousPage = () => ({
-    type: PREVIOUS_PAGE
+  type: PREVIOUS_PAGE
 });

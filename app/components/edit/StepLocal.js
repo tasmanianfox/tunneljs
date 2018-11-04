@@ -8,7 +8,7 @@ import { NetworkNode } from '../../types/connection';
 import styles from './Edit.css';
 
 type Props = {
-  connectionPropertyUpdated: (object, string, string) => void,
+  nodePropertyUpdated: (object, string, string) => void,
   node: NetworkNode
 };
 
@@ -16,7 +16,7 @@ export default class StepLocal extends Component<Props> {
   props: Props;
 
   render() {
-    const { node, connectionPropertyUpdated } = this.props;
+    const { node, nodePropertyUpdated } = this.props;
 
     return (
       <div>
@@ -28,7 +28,7 @@ export default class StepLocal extends Component<Props> {
           placeholder="Host"
           value={node.host || ''}
           onChange={e => {
-            connectionPropertyUpdated('local', 'host', e.target.value);
+            nodePropertyUpdated('local', 'host', e.target.value);
           }}
         />
         <span style={{ margin: '0px 10px' }}>:</span>
@@ -36,7 +36,7 @@ export default class StepLocal extends Component<Props> {
           placeholder="Port"
           value={node.port || ''}
           onChange={e => {
-            connectionPropertyUpdated('local', 'port', e.target.value);
+            nodePropertyUpdated('local', 'port', e.target.value);
           }}
         />
 

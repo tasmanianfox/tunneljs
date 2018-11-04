@@ -1,8 +1,10 @@
 // @flow
 import { LOCATION_CHANGE } from 'react-router-redux/reducer';
+import ConnectionAuth from '../models/ConnectionAuth';
 import { Connection as ConnectionType } from '../types/connection';
 import {
   GET_CONNECTION,
+  AUTH_PROPERTY_UPDATED,
   NODE_PROPERTY_UPDATED,
   NEXT_PAGE,
   PREVIOUS_PAGE
@@ -16,6 +18,20 @@ type EditPageState = {
 const defaultState = {
   connection: null,
   step: 0
+};
+
+const updateAuthProperty = (state, action) => {
+  const { propertyName, value } = action;
+
+  const newState = { ...state };
+  newState.connection = { ...state.connection };
+  newState.connection.auth = Object.assign(
+    new ConnectionAuth(),
+    state.connection.auth
+  );
+  newState.connection.auth[propertyName] = value;
+
+  return newState;
 };
 
 const updateNodeProperty = (state, action) => {
@@ -52,16 +68,17 @@ export default function pageEdit(
         }
       });
       break;
+    case AUTH_PROPERTY_UPDATED:
+      newState = updateAuthProperty(state, action);
+      break;
     case NODE_PROPERTY_UPDATED:
       newState = updateNodeProperty(state, action);
       break;
     case NEXT_PAGE:
-      newState = { ...newState };
-      newState = Object.assign(newState, { step: newState.step + 1 });
+      newState = Object.assign({ ...newState }, { step: newState.step + 1 });
       break;
     case PREVIOUS_PAGE:
-      newState = { ...newState };
-      newState = Object.assign(newState, { step: newState.step - 1 });
+      newState = Object.assign({ ...newState }, { step: newState.step - 1 });
       break;
     case LOCATION_CHANGE:
       newState = { ...defaultState };

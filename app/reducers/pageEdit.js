@@ -1,10 +1,14 @@
 // @flow
-import { Connection } from '../types/connection';
-
-import { GET_CONNECTION, NODE_PROPERTY_UPDATED, NEXT_PAGE, PREVIOUS_PAGE } from '../actions/page_edit';
+import { Connection as ConnectionType } from '../types/connection';
+import {
+  GET_CONNECTION,
+  NODE_PROPERTY_UPDATED,
+  NEXT_PAGE,
+  PREVIOUS_PAGE
+} from '../actions/page_edit';
 
 type EditPageState = {
-  connection: ?Connection,
+  connection: ?ConnectionType,
   step: integer
 };
 
@@ -23,15 +27,20 @@ const updateNodeProperty = (state, action) => {
     }
   }
 
-  const newState = { ... state };
-  newState.connection = { ... state.connection };
-  newState.connection[action.nodeName] = { ... state.connection[action.nodeName] };
+  const newState = { ...state };
+  newState.connection = { ...state.connection };
+  newState.connection[action.nodeName] = {
+    ...state.connection[action.nodeName]
+  };
   newState.connection[action.nodeName][action.propertyName] = value;
 
   return newState;
 };
 
-export default function pageEdit(state: EditPageState = defaultState, action: Action) {
+export default function pageEdit(
+  state: EditPageState = defaultState,
+  action: Action
+) {
   let newState = state;
 
   switch (action.type) {
@@ -43,7 +52,7 @@ export default function pageEdit(state: EditPageState = defaultState, action: Ac
       });
       break;
     case NODE_PROPERTY_UPDATED:
-      newState =  updateNodeProperty(state, action);
+      newState = updateNodeProperty(state, action);
       break;
     case NEXT_PAGE:
       newState = { ...newState };

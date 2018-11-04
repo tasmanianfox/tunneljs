@@ -4,16 +4,20 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
+import Connection from './components/home/Connection';
+import ConnectionAuth from './models/ConnectionAuth';
 
 const config = require('./config');
 
 const configuration = config.loadConfig();
 const connections = configuration.connections.map(src => {
-  const connection = { 
+  const connection = Object.assign(new Connection(), {
     ...src,
     isActive: false
-  };
-  connection.gate.port = connection.gate.port === null ? 22 : connection.gate.port;
+  });
+  connection.auth = Object.assign(new ConnectionAuth(), connection.auth);
+  connection.gate.port =
+    connection.gate.port === null ? 22 : connection.gate.port;
 
   return connection;
 });

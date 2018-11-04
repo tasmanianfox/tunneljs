@@ -17,7 +17,7 @@ export type ConnectionType = {
 type Props = {
   addConnection: () => void,
   +connections: Array<ConnectionType>,
-  deleteConnectionClick: (ConnectionType) => void
+  deleteConnectionClick: ConnectionType => void
 };
 
 export default class ConnectionsList extends Component<Props> {
@@ -27,12 +27,14 @@ export default class ConnectionsList extends Component<Props> {
     const { addConnection } = this.props;
 
     return (
-      <Grid
-        key="btnAdd"
-        item
-        className={styles.connectionBlock}
-      >
-        <Button variant="raised" fullWidth mini color="primary" onClick={addConnection}>
+      <Grid key="btnAdd" item className={styles.connectionBlock}>
+        <Button
+          variant="contained"
+          fullWidth
+          mini
+          color="primary"
+          onClick={addConnection}
+        >
           <AddIcon />
           Add a new connection
         </Button>
@@ -42,16 +44,29 @@ export default class ConnectionsList extends Component<Props> {
 
   render() {
     const { connections, deleteConnectionClick } = this.props;
-    const connectionBlocks = connections.map((connection) => (
-      <Connection 
-        key={connection.id} 
+    const connectionBlocks = connections.map(connection => (
+      <Connection
+        key={connection.id}
         connection={connection}
-        onRemoveClick={() => { deleteConnectionClick(connection) }} />
+        onRemoveClick={() => {
+          deleteConnectionClick(connection);
+        }}
+      />
     ));
     connectionBlocks.push(this.renderAddButton());
 
     return (
-      <Grid justify="center" xl={4} lg={6} md={6} sm={8} xs={12} item direction="column" container>
+      <Grid
+        justify="center"
+        xl={4}
+        lg={6}
+        md={6}
+        sm={8}
+        xs={12}
+        item
+        direction="column"
+        container
+      >
         {connectionBlocks}
       </Grid>
     );

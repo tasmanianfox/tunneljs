@@ -14,11 +14,11 @@ import routes from '../../constants/routes.json';
 
 import styles from './Home.css';
 
-import { Connection as ConnectionType } from '../../types/connection'
+import { Connection as ConnectionType } from '../../types/connection';
 
 type Props = {
   connection: ConnectionType,
-  onRemoveClick: (ConnectionType) => {}
+  onRemoveClick: ConnectionType => {}
 };
 
 export default class Connection extends Component<Props> {
@@ -34,21 +34,29 @@ export default class Connection extends Component<Props> {
           <Grid direction="row" container>
             <Grid item xl={8} lg={8} sm={8} xs={12}>
               <Typography variant="title" gutterBottom>
-                {name}
+                {name || 'Unnamed connection'}
               </Typography>
               <Typography variant="subheading" gutterBottom>
-                {auth.user}@{gate.host}:{gate.port}
+                {auth.user || 'unnamed_user'}@{gate.host || 'empty_host'}:
+                {gate.port || 'empty_port'}
               </Typography>
             </Grid>
-            <Grid xl={4} lg={4} sm={4} xs={12} item className={styles.controlsBlock}>
+            <Grid
+              xl={4}
+              lg={4}
+              sm={4}
+              xs={12}
+              item
+              className={styles.controlsBlock}
+            >
               <Button
-                    variant="fab"
-                    color="primary"
-                    mini
-                    aria-label="Connect"
-                    className={styles.controlsButton}
-                  >
-                  <PowerIcon />
+                variant="fab"
+                color="primary"
+                mini
+                aria-label="Connect"
+                className={styles.controlsButton}
+              >
+                <PowerIcon />
               </Button>
               <Button
                 variant="fab"

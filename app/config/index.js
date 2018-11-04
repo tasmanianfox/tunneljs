@@ -3,60 +3,44 @@ const os = require('os');
 
 let config = null;
 
-const getConfigDir = () => `${os.homedir}/.tunneljs`
-const getConfigPath = () => `${getConfigDir()}/config.json`
+const getConfigDir = () => `${os.homedir}/.tunneljs`;
+const getConfigPath = () => `${getConfigDir()}/config.json`;
+
+const { Connection, createSampleConnection } = require('../models/Connection');
 
 const initConfig = () => {
-    if (!fs.existsSync(getConfigPath())) {
-        config = {
-            connections: [
-                {
-                    id: '1a79a4d60de6718e8e5b326e338ae533',
-                    name: 'Example',
-                    auth: {
-                        user: 'root'
-                    },
-                    local: {
-                        host: '127.0.0.1',
-                        port: 3307
-                    },
-                    gate: {
-                        host: 'example.com',
-                        port: 22
-                    },
-                    target: {
-                        host: '127.0.0.1',
-                        port: 3306
-                    }
+  if (!fs.existsSync(getConfigPath())) {
+    config = {
+      connections: [createSampleConnection()]
+    };
 
-                }
-            ]
-        };
-    
-        saveConfig();
-    }
+    saveConfig();
+  }
 
-    const rawdata = fs.readFileSync(getConfigPath());  
-    config = JSON.parse(rawdata);
+  const rawdata = fs.readFileSync(getConfigPath());
+  config = JSON.parse(rawdata);
+  config.connections = config.connections.map(connection =>
+    Object.assign(new Connection(), connection)
+  );
 };
 
 const loadConfig = () => {
-    if (config === null) {
-        initConfig();
-    }
-    
-    return config;
-}
+  if (config === null) {
+    initConfig();
+  }
+
+  return config;
+};
 
 const saveConfig = () => {
-    if (!fs.existsSync(getConfigDir())) {
-        fs.mkdirSync(getConfigDir());
-    }
+  if (!fs.existsSync(getConfigDir())) {
+    fs.mkdirSync(getConfigDir());
+  }
 
-    const json = JSON.stringify(config, null, 2);
-    fs.writeFileSync(getConfigPath(), json);  
-}
+  const json = JSON.stringify(config, null, 2);
+  fs.writeFileSync(getConfigPath(), json);
+};
 
 module.exports = {
-    loadConfig
-}
+  loadConfig
+};

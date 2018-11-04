@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -11,6 +12,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Input from '@material-ui/core/Input';
 
+import routes from '../../constants/routes.json';
 import StepGate from './StepGate';
 import StepLocal from './StepLocal';
 
@@ -99,7 +101,7 @@ export default class Edit extends Component<Props> {
 
         <Input
           placeholder="Host"
-          value={node.host}
+          value={node.host || ''}
           onChange={e => {
             connectionPropertyUpdated('target', 'host', e.target.value);
           }}
@@ -107,7 +109,7 @@ export default class Edit extends Component<Props> {
         <span style={{ margin: '0px 10px' }}>:</span>
         <Input
           placeholder="Port"
-          value={node.port}
+          value={node.port || ''}
           onChange={e => {
             connectionPropertyUpdated('target', 'port', e.target.value);
           }}
@@ -190,22 +192,47 @@ export default class Edit extends Component<Props> {
             mysql.internal.example.com:3306{' '}
           </span>
           <span style={{ color: step === 1 ? 'red' : 'black' }}>
-            user@example.com:22
+            user@example.com -p 22
           </span>
         </div>
       </div>
     );
   }
 
+  renderButtonBack() {
+    const { previousPage, step } = this.props;
+
+    const renderContent = () => {
+      if (step === 0) {
+        return (
+          <Link to={`${routes.HOME}`}>
+            <ArrowBackIcon style={{ color: 'white' }} />
+          </Link>
+        );
+      }
+
+      return <ArrowBackIcon />;
+    };
+
+    return (
+      <Button
+        variant="fab"
+        color="primary"
+        mini
+        aria-label="Previous"
+        onClick={() => {
+          if (step > 0) {
+            previousPage();
+          }
+        }}
+      >
+        {renderContent()}
+      </Button>
+    );
+  }
+
   render() {
-    const {
-      connection,
-      getConnection,
-      match,
-      nextPage,
-      previousPage,
-      step
-    } = this.props;
+    const { connection, getConnection, match, nextPage, step } = this.props;
 
     if (connection === null) {
       getConnection(match.params.id);
@@ -263,17 +290,7 @@ export default class Edit extends Component<Props> {
               md={6}
               lg={6}
             >
-              <Button
-                variant="fab"
-                color="primary"
-                mini
-                aria-label="Previous"
-                onClick={() => {
-                  previousPage();
-                }}
-              >
-                <ArrowBackIcon />
-              </Button>
+              {this.renderButtonBack()}
             </Grid>
             <Grid
               container

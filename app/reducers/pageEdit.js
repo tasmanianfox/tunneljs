@@ -1,4 +1,5 @@
 // @flow
+import { LOCATION_CHANGE } from 'react-router-redux/reducer';
 import { Connection as ConnectionType } from '../types/connection';
 import {
   GET_CONNECTION,
@@ -61,6 +62,9 @@ export default function pageEdit(
     case PREVIOUS_PAGE:
       newState = { ...newState };
       newState = Object.assign(newState, { step: newState.step - 1 });
+      break;
+    case LOCATION_CHANGE:
+      newState = { ...defaultState };
       break;
     default:
       break;

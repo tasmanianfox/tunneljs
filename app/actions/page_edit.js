@@ -1,5 +1,6 @@
 export const GET_CONNECTION = 'EDIT.GET_CONNECTION';
 export const AUTH_PROPERTY_UPDATED = 'EDIT.AUTH_PROPERTY_UPDATED';
+export const CONNECTION_PROPERTY_UPDATED = 'EDIT.CONNECTION_PROPERTY_UPDATED';
 export const NODE_PROPERTY_UPDATED = 'EDIT.NODE_PROPERTY_UPDATED';
 export const NEXT_PAGE = 'EDIT.NEXT_PAGE';
 export const PREVIOUS_PAGE = 'EDIT.PREVIOUS_PAGE';
@@ -8,6 +9,12 @@ export const SAVE_CONNECTION = 'EDIT.SAVE_CONNECTION';
 export const getConnection = id => ({
   id,
   type: GET_CONNECTION
+});
+
+export const connectionPropertyUpdated = (propertyName, value) => ({
+  propertyName,
+  type: CONNECTION_PROPERTY_UPDATED,
+  value
 });
 
 export const authPropertyUpdated = (propertyName, value) => ({

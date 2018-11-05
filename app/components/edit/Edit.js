@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import TextField from '@material-ui/core/TextField';
 
 import NavBar from './NavBar';
 import StepGate from './StepGate';
@@ -19,6 +20,7 @@ import { Connection } from '../../types/connection';
 type Props = {
   authPropertyUpdated: (string, string) => void,
   connection: ?Connection,
+  connectionPropertyUpdated: (string, string) => void,
   nodePropertyUpdated: (object, string, string) => void,
   getConnection: int => void,
   match: object,
@@ -106,6 +108,7 @@ export default class Edit extends Component<Props> {
   render() {
     const {
       connection,
+      connectionPropertyUpdated,
       getConnection,
       match,
       nextPage,
@@ -149,6 +152,15 @@ export default class Edit extends Component<Props> {
               <StepLabel>Target</StepLabel>
             </Step>
           </Stepper>
+
+          <TextField
+            label="Connection name"
+            value={connection.name || ''}
+            onChange={e => {
+              connectionPropertyUpdated('name', e.target.value);
+            }}
+            margin="normal"
+          />
 
           {this.renderContent()}
           {this.renderSshExample()}

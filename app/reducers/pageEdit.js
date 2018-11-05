@@ -5,6 +5,7 @@ import { Connection as ConnectionType } from '../types/connection';
 import {
   GET_CONNECTION,
   AUTH_PROPERTY_UPDATED,
+  CONNECTION_PROPERTY_UPDATED,
   NODE_PROPERTY_UPDATED,
   NEXT_PAGE,
   PREVIOUS_PAGE
@@ -18,6 +19,16 @@ type EditPageState = {
 const defaultState = {
   connection: null,
   step: 0
+};
+
+const updateConnectionProperty = (state, action) => {
+  const { propertyName, value } = action;
+
+  const newState = { ...state };
+  newState.connection = { ...state.connection };
+  newState.connection[propertyName] = value;
+
+  return newState;
 };
 
 const updateAuthProperty = (state, action) => {
@@ -70,6 +81,9 @@ export default function pageEdit(
       break;
     case AUTH_PROPERTY_UPDATED:
       newState = updateAuthProperty(state, action);
+      break;
+    case CONNECTION_PROPERTY_UPDATED:
+      newState = updateConnectionProperty(state, action);
       break;
     case NODE_PROPERTY_UPDATED:
       newState = updateNodeProperty(state, action);

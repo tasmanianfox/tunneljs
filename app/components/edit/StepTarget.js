@@ -27,7 +27,7 @@ export default class StepTarget extends Component<Props> {
           label="Host"
           value={node.host || ''}
           onChange={e => {
-            nodePropertyUpdated('gate', 'host', e.target.value);
+            nodePropertyUpdated('target', 'host', e.target.value);
           }}
           margin="normal"
         />
@@ -35,7 +35,7 @@ export default class StepTarget extends Component<Props> {
           label="Port"
           value={node.port || ''}
           onChange={e => {
-            nodePropertyUpdated('gate', 'port', e.target.value);
+            nodePropertyUpdated('target', 'port', e.target.value);
           }}
           margin="normal"
         />

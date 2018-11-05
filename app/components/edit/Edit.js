@@ -1,20 +1,16 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Input from '@material-ui/core/Input';
 
-import routes from '../../constants/routes.json';
+import NavBar from './NavBar';
 import StepGate from './StepGate';
 import StepLocal from './StepLocal';
+import StepTarget from './StepTarget';
 
 import styles from './Edit.css';
 
@@ -28,59 +24,12 @@ type Props = {
   match: object,
   nextPage: () => void,
   previousPage: () => void,
+  saveConnection: Connection => void,
   step: integer
 };
+
 export default class Edit extends Component<Props> {
   props: Props;
-
-  renderStepTarget() {
-    const { connection, nodePropertyUpdated } = this.props;
-    const node = connection.target;
-
-    return (
-      <div>
-        <Typography component="h2" variant="headline" gutterBottom>
-          Target
-        </Typography>
-
-        <Input
-          placeholder="Host"
-          value={node.host || ''}
-          onChange={e => {
-            nodePropertyUpdated('target', 'host', e.target.value);
-          }}
-        />
-        <span style={{ margin: '0px 10px' }}>:</span>
-        <Input
-          placeholder="Port"
-          value={node.port || ''}
-          onChange={e => {
-            nodePropertyUpdated('target', 'port', e.target.value);
-          }}
-        />
-        <Typography
-          variant="body1"
-          gutterBottom
-          className={styles.descriptionBlock}
-        >
-          This is address of target machine. In other words, this should be host
-          and port of remote server which accepts connections and is available
-          from the Gate machine (see step 2). Sometimes the server application
-          and SSH server are deployed to the same machine. In this case the
-          &quot;127.0.0.1&quot; address might be specified.
-        </Typography>
-
-        <Typography
-          variant="body1"
-          gutterBottom
-          className={styles.descriptionBlock}
-        >
-          <strong>Port.</strong> This is actually a port which you need to
-          forward form remote server.
-        </Typography>
-      </div>
-    );
-  }
 
   renderContent() {
     const {
@@ -108,7 +57,12 @@ export default class Edit extends Component<Props> {
           />
         );
       case 2:
-        return this.renderStepTarget();
+        return (
+          <StepTarget
+            node={connection.target}
+            nodePropertyUpdated={nodePropertyUpdated}
+          />
+        );
       default:
         return null;
     }
@@ -149,40 +103,16 @@ export default class Edit extends Component<Props> {
     );
   }
 
-  renderButtonBack() {
-    const { previousPage, step } = this.props;
-
-    const renderContent = () => {
-      if (step === 0) {
-        return (
-          <Link to={`${routes.HOME}`}>
-            <ArrowBackIcon style={{ color: 'white' }} />
-          </Link>
-        );
-      }
-
-      return <ArrowBackIcon />;
-    };
-
-    return (
-      <Button
-        variant="fab"
-        color="primary"
-        mini
-        aria-label="Previous"
-        onClick={() => {
-          if (step > 0) {
-            previousPage();
-          }
-        }}
-      >
-        {renderContent()}
-      </Button>
-    );
-  }
-
   render() {
-    const { connection, getConnection, match, nextPage, step } = this.props;
+    const {
+      connection,
+      getConnection,
+      match,
+      nextPage,
+      previousPage,
+      saveConnection,
+      step
+    } = this.props;
 
     if (connection === null) {
       getConnection(match.params.id);
@@ -223,48 +153,13 @@ export default class Edit extends Component<Props> {
           {this.renderContent()}
           {this.renderSshExample()}
 
-          <Grid
-            container
-            item
-            spacing={0}
-            direction="row"
-            justify="space-between"
-          >
-            <Grid
-              container
-              item
-              spacing={0}
-              justify="flex-start"
-              xs={6}
-              s={6}
-              md={6}
-              lg={6}
-            >
-              {this.renderButtonBack()}
-            </Grid>
-            <Grid
-              container
-              item
-              spacing={0}
-              justify="flex-end"
-              xs={6}
-              s={6}
-              md={6}
-              lg={6}
-            >
-              <Button
-                variant="fab"
-                color="primary"
-                mini
-                aria-label="Next"
-                onClick={() => {
-                  nextPage();
-                }}
-              >
-                <ArrowForwardIcon />
-              </Button>
-            </Grid>
-          </Grid>
+          <NavBar
+            connection={connection}
+            nextPage={nextPage}
+            previousPage={previousPage}
+            saveConnection={saveConnection}
+            step={step}
+          />
         </Grid>
       </Grid>
     );

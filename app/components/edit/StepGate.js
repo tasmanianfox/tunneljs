@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 
 import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
@@ -30,8 +29,8 @@ export default class StepGate extends Component<Props> {
     if (auth.isMethodPassword()) {
       return (
         <div>
-          <Input
-            placeholder="Password"
+          <TextField
+            label="Password"
             value={auth.password || ''}
             type="password"
             onChange={e => {
@@ -44,8 +43,8 @@ export default class StepGate extends Component<Props> {
     if (auth.isMethodPrivateKey()) {
       return (
         <div>
-          <Input
-            placeholder="Path to private key"
+          <TextField
+            label="Path to private key"
             value={auth.privateKeyPath || ''}
             onChange={e => {
               authPropertyUpdated('privateKeyPath', e.target.value);
@@ -98,8 +97,8 @@ export default class StepGate extends Component<Props> {
         />
 
         <div>
-          <Input
-            placeholder="User"
+          <TextField
+            label="User"
             value={auth.user || ''}
             onChange={e => {
               authPropertyUpdated('user', e.target.value);

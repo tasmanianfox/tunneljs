@@ -3,6 +3,7 @@ export const AUTH_PROPERTY_UPDATED = 'EDIT.AUTH_PROPERTY_UPDATED';
 export const NODE_PROPERTY_UPDATED = 'EDIT.NODE_PROPERTY_UPDATED';
 export const NEXT_PAGE = 'EDIT.NEXT_PAGE';
 export const PREVIOUS_PAGE = 'EDIT.PREVIOUS_PAGE';
+export const SAVE_CONNECTION = 'EDIT.SAVE_CONNECTION';
 
 export const getConnection = id => ({
   id,
@@ -28,4 +29,9 @@ export const nextPage = () => ({
 
 export const previousPage = () => ({
   type: PREVIOUS_PAGE
+});
+
+export const saveConnection = connection => ({
+  connection,
+  type: SAVE_CONNECTION
 });

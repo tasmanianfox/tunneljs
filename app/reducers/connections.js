@@ -4,6 +4,8 @@ import type { Action } from './types';
 
 import { createNewConnection } from '../models/Connection';
 
+const config = require('../config');
+
 const addConnection = state => {
   const connection = createNewConnection();
 
@@ -28,6 +30,9 @@ const saveConnection = (state, connectionToSave) => {
 
     return connection;
   });
+
+  config.setConnections(newState);
+  config.saveConfig();
 
   return newState;
 };

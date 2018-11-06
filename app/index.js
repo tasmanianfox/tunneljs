@@ -16,8 +16,6 @@ const connections = configuration.connections.map(src => {
     isActive: false
   });
   connection.auth = Object.assign(new ConnectionAuth(), connection.auth);
-  connection.gate.port =
-    connection.gate.port === null ? 22 : connection.gate.port;
 
   return connection;
 });

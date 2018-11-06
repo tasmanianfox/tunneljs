@@ -41,6 +41,23 @@ const saveConfig = () => {
   fs.writeFileSync(getConfigPath(), json);
 };
 
+const setConnections = connections => {
+  config.connections = connections.map(connection => {
+    const { id, name, auth, local, gate, target } = connection;
+
+    return {
+      id,
+      name,
+      auth: { ...auth },
+      local: { ...local },
+      gate: { ...gate },
+      target: { ...target }
+    };
+  });
+};
+
 module.exports = {
-  loadConfig
+  loadConfig,
+  saveConfig,
+  setConnections
 };

@@ -42,16 +42,22 @@ const updateAuthProperty = (state, action) => {
   );
   newState.connection.auth[propertyName] = value;
 
+  if (propertyName === 'password') {
+    newState.connection.auth.privateKeyPath = null;
+  } else if (propertyName === 'privateKeyPath') {
+    newState.connection.auth.password = null;
+  }
+
   return newState;
 };
 
 const updateNodeProperty = (state, action) => {
   let { value } = action;
 
-  if (action.propertyName === 'port') {
+  if (action.propertyName === 'port' && value.length > 0) {
     value = parseInt(value, 10);
     if (!value) {
-      value = 0;
+      value = null;
     }
   }
 

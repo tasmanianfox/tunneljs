@@ -8,6 +8,7 @@ import Connection from './components/home/Connection';
 import ConnectionAuth from './models/ConnectionAuth';
 
 const config = require('./config');
+const application = require('./backend');
 
 const configuration = config.loadConfig();
 const connections = configuration.connections.map(src => {
@@ -22,6 +23,10 @@ const connections = configuration.connections.map(src => {
 
 const store = configureStore({
   connections
+});
+
+application.init({
+  store
 });
 
 render(

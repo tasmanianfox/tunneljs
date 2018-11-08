@@ -16,6 +16,8 @@ import styles from './Home.css';
 
 import { Connection as ConnectionType } from '../../types/connection';
 
+const application = require('../../backend');
+
 type Props = {
   connection: ConnectionType,
   onRemoveClick: ConnectionType => {}
@@ -27,6 +29,7 @@ export default class Connection extends Component<Props> {
   render() {
     const { connection, onRemoveClick } = this.props;
     const { auth, name, gate } = connection;
+    console.log(application.getApplication());
 
     return (
       <Grid item className={styles.connectionBlock}>
@@ -55,6 +58,9 @@ export default class Connection extends Component<Props> {
                 mini
                 aria-label="Connect"
                 className={styles.controlsButton}
+                onClick={() => {
+                  application.getApplication().setupConnection(connection);
+                }}
               >
                 <PowerIcon />
               </Button>

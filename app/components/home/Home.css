@@ -17,3 +17,7 @@
 .deleteDialogItemBlock {
   margin: 5px !important;
 }
+
+.connectionActive {
+  background-color: lightgreen !important;
+}

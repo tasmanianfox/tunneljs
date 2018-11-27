@@ -1,6 +1,7 @@
 const tunnelSsh = require('tunnel-ssh');
 
 const Connection = require('./Connection');
+const { sshConnectionEstabilished } = require('../actions/home');
 
 class Application {
   constructor(args) {
@@ -35,6 +36,8 @@ class Application {
       localPort: model.local.port,
       keepAlive: true
     });
+
+    this.reduxStore.dispatch(sshConnectionEstabilished(connection.model));
   }
 }
 

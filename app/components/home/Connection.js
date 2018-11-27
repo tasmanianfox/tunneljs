@@ -16,7 +16,7 @@ import styles from './Home.css';
 
 import { Connection as ConnectionType } from '../../types/connection';
 
-const application = require('../../backend');
+const application = require('electron').remote.require('./backend');
 
 type Props = {
   connection: ConnectionType,
@@ -26,14 +26,23 @@ type Props = {
 export default class Connection extends Component<Props> {
   props: Props;
 
+  getPaperColor() {
+    const { connection } = this.props;
+
+    if (connection.isActive) {
+      return styles.connectionActive;
+    }
+
+    return '';
+  }
+
   render() {
     const { connection, onRemoveClick } = this.props;
     const { auth, name, gate } = connection;
-    console.log(application.getApplication());
 
     return (
       <Grid item className={styles.connectionBlock}>
-        <Paper className={styles.padding10}>
+        <Paper className={`${styles.padding10} ${this.getPaperColor()}`}>
           <Grid direction="row" container>
             <Grid item xl={8} lg={8} sm={8} xs={12}>
               <Typography variant="title" gutterBottom>

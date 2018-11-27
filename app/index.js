@@ -7,8 +7,8 @@ import './app.global.css';
 import Connection from './components/home/Connection';
 import ConnectionAuth from './models/ConnectionAuth';
 
+const application = require('electron').remote.require('./backend');
 const config = require('./config');
-const application = require('./backend');
 
 const configuration = config.loadConfig();
 const connections = configuration.connections.map(src => {
@@ -26,7 +26,7 @@ const store = configureStore({
 });
 
 application.init({
-  store
+  reduxStore: store
 });
 
 render(

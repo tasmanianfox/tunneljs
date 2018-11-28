@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PowerIcon from '@material-ui/icons/Power';
+import PowerOffIcon from '@material-ui/icons/PowerOff';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import routes from '../../constants/routes.json';
@@ -20,11 +21,19 @@ const application = require('electron').remote.require('./backend');
 
 type Props = {
   connection: ConnectionType,
-  onRemoveClick: ConnectionType => {}
+  onRemoveClick: ConnectionType => {},
+  onSshConnectionEstabilished: ConnectionType => {},
+  onSshConnectionTerminated: ConnectionType => {}
 };
 
 export default class Connection extends Component<Props> {
   props: Props;
+
+  constructor(props) {
+    super(props);
+    this.onConnectClick = this.onConnectClick.bind(this);
+    this.onDisconnectClick = this.onDisconnectClick.bind(this);
+  }
 
   getPaperColor() {
     const { connection } = this.props;
@@ -34,6 +43,52 @@ export default class Connection extends Component<Props> {
     }
 
     return '';
+  }
+
+  onConnectClick() {
+    const { connection, onSshConnectionEstabilished } = this.props;
+
+    application.getApplication().setupConnection(connection);
+    onSshConnectionEstabilished(connection);
+  }
+
+  onDisconnectClick() {
+    const { connection, onSshConnectionTerminated } = this.props;
+
+    application.getApplication().terminateConnection(connection);
+    onSshConnectionTerminated(connection);
+  }
+
+  renderConnectButton() {
+    const { connection } = this.props;
+
+    if (connection.isActive) {
+      return (
+        <Button
+          variant="fab"
+          color="secondary"
+          mini
+          aria-label="Disconnect"
+          className={styles.controlsButton}
+          onClick={this.onDisconnectClick}
+        >
+          <PowerOffIcon />
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        variant="fab"
+        color="primary"
+        mini
+        aria-label="Connect"
+        className={styles.controlsButton}
+        onClick={this.onConnectClick}
+      >
+        <PowerIcon />
+      </Button>
+    );
   }
 
   render() {
@@ -61,23 +116,13 @@ export default class Connection extends Component<Props> {
               item
               className={styles.controlsBlock}
             >
-              <Button
-                variant="fab"
-                color="primary"
-                mini
-                aria-label="Connect"
-                className={styles.controlsButton}
-                onClick={() => {
-                  application.getApplication().setupConnection(connection);
-                }}
-              >
-                <PowerIcon />
-              </Button>
+              {this.renderConnectButton()}
               <Button
                 variant="fab"
                 mini
                 aria-label="Edit"
                 className={styles.controlsButton}
+                disabled={connection.isActive}
               >
                 <Link to={`${routes.EDIT}/${connection.id}`}>
                   <EditIcon />
@@ -88,6 +133,7 @@ export default class Connection extends Component<Props> {
                 color="secondary"
                 mini
                 aria-label="Remove"
+                disabled={connection.isActive}
                 className={styles.controlsButton}
                 onClick={onRemoveClick}
               >

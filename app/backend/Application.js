@@ -1,7 +1,6 @@
 const tunnelSsh = require('tunnel-ssh');
 
 const Connection = require('./Connection');
-const { sshConnectionEstabilished } = require('../actions/home');
 
 class Application {
   constructor(args) {
@@ -15,12 +14,14 @@ class Application {
     let connection = null;
 
     this.connections.forEach(testConnection => {
-      if (testConnection.id === model.id) {
+      if (testConnection.model.id === model.id) {
         connection = testConnection;
       }
     });
 
-    if (!connection) {
+    if (connection) {
+      Object.assign(connection, { model });
+    } else {
       connection = new Connection(model);
       this.connections.push(connection);
     }
@@ -36,8 +37,25 @@ class Application {
       localPort: model.local.port,
       keepAlive: true
     });
+  }
 
-    this.reduxStore.dispatch(sshConnectionEstabilished(connection.model));
+  terminateConnection(model) {
+    let connection = null;
+
+    this.connections.forEach(testConnection => {
+      if (testConnection.model.id === model.id) {
+        connection = testConnection;
+      }
+    });
+
+    if (connection === null) {
+      return;
+    }
+
+    connection.tunnel.close();
+    this.connections = this.connections.filter(
+      existingConnection => existingConnection.model.id !== model.id
+    );
   }
 }
 

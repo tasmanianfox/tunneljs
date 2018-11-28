@@ -1,7 +1,8 @@
 import {
   ADD_CONNECTION,
   DELETE_DIALOG_YES_CLICK,
-  SSH_CONNECTION_ESTABILISHED
+  SSH_CONNECTION_ESTABILISHED,
+  SSH_CONNECTION_TERMINATED
 } from '../actions/home';
 import { SAVE_CONNECTION } from '../actions/page_edit';
 import type { Action } from './types';
@@ -41,12 +42,12 @@ const saveConnection = (state, connectionToSave) => {
   return newState;
 };
 
-const estabilishConnection = (state, enabledConnection) => {
+const switchConnection = (state, enabledConnection, isActive) => {
   let newState = Object.assign([], state);
 
   newState = newState.map(connection => {
     if (connection.id === enabledConnection.id) {
-      Object.assign(connection, { isActive: true });
+      Object.assign(connection, { isActive });
     }
 
     return connection;
@@ -64,7 +65,9 @@ export default function connections(state: AppState = 0, action: Action) {
     case SAVE_CONNECTION:
       return saveConnection(state, action.connection);
     case SSH_CONNECTION_ESTABILISHED:
-      return estabilishConnection(state, action.connection);
+      return switchConnection(state, action.connection, true);
+    case SSH_CONNECTION_TERMINATED:
+      return switchConnection(state, action.connection, false);
     default:
       return state;
   }

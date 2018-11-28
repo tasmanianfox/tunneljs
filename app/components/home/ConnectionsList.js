@@ -17,7 +17,9 @@ export type ConnectionType = {
 type Props = {
   addConnection: () => void,
   +connections: Array<ConnectionType>,
-  deleteConnectionClick: ConnectionType => void
+  deleteConnectionClick: ConnectionType => void,
+  sshConnectionEstabilished: ConnectionType => void,
+  sshConnectionTerminated: ConnectionType => void
 };
 
 export default class ConnectionsList extends Component<Props> {
@@ -43,13 +45,24 @@ export default class ConnectionsList extends Component<Props> {
   }
 
   render() {
-    const { connections, deleteConnectionClick } = this.props;
+    const {
+      connections,
+      deleteConnectionClick,
+      sshConnectionEstabilished,
+      sshConnectionTerminated
+    } = this.props;
     const connectionBlocks = connections.map(connection => (
       <Connection
         key={connection.id}
         connection={connection}
         onRemoveClick={() => {
           deleteConnectionClick(connection);
+        }}
+        onSshConnectionEstabilished={() => {
+          sshConnectionEstabilished(connection);
+        }}
+        onSshConnectionTerminated={() => {
+          sshConnectionTerminated(connection);
         }}
       />
     ));

@@ -6,7 +6,7 @@ import DeleteDialog from './DeleteDialog';
 
 import { Connection } from '../../types/connection';
 import { DialogDeleteConnectionState } from '../../reducers/dialogDeleteConnection';
-import ConnectionList from './ConnectionsList';
+import ConnectionsList from './ConnectionsList';
 
 type Props = {
   addConnection: () => void,
@@ -21,26 +21,34 @@ export default class Home extends Component<Props> {
   props: Props;
 
   render() {
-    const { 
-      addConnection, 
-      connections, 
-      deleteDialog, 
+    const {
+      addConnection,
+      connections,
+      deleteDialog,
       deleteConnectionClick,
       onDeleteDialogYesClick,
-      onDeleteDialogNoClick
+      onDeleteDialogNoClick,
+      sshConnectionEstabilished,
+      sshConnectionTerminated
     } = this.props;
 
     return (
       <Grid justify="center" container>
-        <ConnectionList 
+        <ConnectionsList
           addConnection={addConnection}
-          connections={connections} 
+          connections={connections}
           deleteConnectionClick={deleteConnectionClick}
+          sshConnectionEstabilished={sshConnectionEstabilished}
+          sshConnectionTerminated={sshConnectionTerminated}
         />
-        <DeleteDialog 
-          { ...deleteDialog } 
-          onYesClick={connection => { onDeleteDialogYesClick(connection); }}
-          onNoClick={connection => { onDeleteDialogNoClick(connection); }}
+        <DeleteDialog
+          {...deleteDialog}
+          onYesClick={connection => {
+            onDeleteDialogYesClick(connection);
+          }}
+          onNoClick={connection => {
+            onDeleteDialogNoClick(connection);
+          }}
         />
       </Grid>
     );

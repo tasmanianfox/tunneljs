@@ -40,7 +40,7 @@ class Application {
       keepAlive: true
     };
 
-    if (connectionAuth.isMethodPrivateKey(auth) === true) {
+    if (connectionAuth.isMethodPassword(auth) === true) {
       Object.assign(config, { password: auth.password });
     } else if (connectionAuth.isMethodPrivateKey(auth) === true) {
       Object.assign(config, {

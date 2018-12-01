@@ -1,6 +1,8 @@
+const fs = require('fs');
 const tunnelSsh = require('tunnel-ssh');
 
 const Connection = require('./Connection');
+const connectionAuth = require('../models/connectionAuth');
 
 class Application {
   constructor(args) {
@@ -11,6 +13,7 @@ class Application {
   }
 
   setupConnection(model) {
+    const { auth } = model;
     let connection = null;
 
     this.connections.forEach(testConnection => {
@@ -26,9 +29,8 @@ class Application {
       this.connections.push(connection);
     }
 
-    connection.tunnel = tunnelSsh({
+    const config = {
       username: model.auth.user,
-      password: model.auth.password,
       host: model.gate.host,
       port: model.gate.port || 22,
       dstHost: model.target.host,
@@ -36,7 +38,18 @@ class Application {
       localHost: model.local.host || 'localhost',
       localPort: model.local.port,
       keepAlive: true
-    });
+    };
+
+    if (connectionAuth.isMethodPrivateKey(auth) === true) {
+      Object.assign(config, { password: auth.password });
+    } else if (connectionAuth.isMethodPrivateKey(auth) === true) {
+      Object.assign(config, {
+        privateKey: fs.readFileSync(model.auth.privateKeyPath),
+        secret: null // needs to be implemented in config
+      });
+    }
+
+    connection.tunnel = tunnelSsh(config);
   }
 
   terminateConnection(model) {

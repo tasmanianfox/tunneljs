@@ -7,7 +7,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-import { ConnectionAuth, NetworkNode } from '../../types/connection';
+import {
+  isMethodPassword,
+  isMethodPrivateKey
+} from '../../models/connectionAuth';
 
 import styles from './Edit.css';
 
@@ -26,7 +29,7 @@ export default class StepGate extends Component<Props> {
   renderCredentials() {
     const { auth, authPropertyUpdated } = this.props;
 
-    if (auth.isMethodPassword()) {
+    if (isMethodPassword(auth)) {
       return (
         <div>
           <TextField
@@ -40,7 +43,7 @@ export default class StepGate extends Component<Props> {
         </div>
       );
     }
-    if (auth.isMethodPrivateKey()) {
+    if (isMethodPrivateKey(auth)) {
       return (
         <div>
           <TextField
@@ -120,7 +123,7 @@ export default class StepGate extends Component<Props> {
             }
             label="Password"
             labelPlacement="end"
-            checked={auth.isMethodPassword()}
+            checked={isMethodPassword(auth)}
           />
           <FormControlLabel
             value="private_key"
@@ -134,7 +137,7 @@ export default class StepGate extends Component<Props> {
             }
             label="Private key"
             labelPlacement="end"
-            checked={auth.isMethodPrivateKey()}
+            checked={isMethodPrivateKey(auth)}
           />
         </div>
 

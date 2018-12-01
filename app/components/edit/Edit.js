@@ -1,4 +1,5 @@
 // @flow
+
 import React, { Component } from 'react';
 
 import Grid from '@material-ui/core/Grid';
@@ -15,7 +16,7 @@ import StepTarget from './StepTarget';
 
 import styles from './Edit.css';
 
-import { Connection } from '../../types/connection';
+import { Connection } from '../../models/connection';
 
 type Props = {
   authPropertyUpdated: (string, string) => void,

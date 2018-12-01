@@ -1,7 +1,6 @@
 // @flow
 import { LOCATION_CHANGE } from 'react-router-redux/reducer';
-import ConnectionAuth from '../models/ConnectionAuth';
-import { Connection as ConnectionType } from '../types/connection';
+import { Connection as ConnectionType } from '../models/connection';
 import {
   GET_CONNECTION,
   AUTH_PROPERTY_UPDATED,
@@ -36,10 +35,6 @@ const updateAuthProperty = (state, action) => {
 
   const newState = { ...state };
   newState.connection = { ...state.connection };
-  newState.connection.auth = Object.assign(
-    new ConnectionAuth(),
-    state.connection.auth
-  );
   newState.connection.auth[propertyName] = value;
 
   if (propertyName === 'password') {

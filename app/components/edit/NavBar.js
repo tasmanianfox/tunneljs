@@ -1,4 +1,5 @@
 // @flow
+
 import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -9,7 +10,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import routes from '../../constants/routes.json';
 
-import { Connection } from '../../types/connection';
+import { Connection } from '../../models/connection';
 
 type Props = {
   connection: ?Connection,

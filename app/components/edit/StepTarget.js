@@ -1,10 +1,11 @@
 // @flow
+
 import React, { Component } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import { NetworkNode } from '../../types/connection';
+import { NetworkNode } from '../../models/networkNode';
 
 import styles from './Edit.css';
 

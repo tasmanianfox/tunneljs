@@ -12,39 +12,51 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import styles from './Home.css';
 
-
-import { Connection } from '../../types/connection'
+import { Connection } from '../../models/connection';
 
 export type Props = {
-    connection: ?Connection,
-    isOpen: boolean,
-    onYesClick: () => void,
-    onNoClick: () => void
+  connection: ?Connection,
+  isOpen: boolean,
+  onYesClick: () => void,
+  onNoClick: () => void
 };
 
 const renderContentBlock = content => (
-    <Grid container item xl={8} lg={8} sm={8} xs={8} className={styles.deleteDialogItemBlock}>
-        { content }
-    </Grid>
+  <Grid
+    container
+    item
+    xl={8}
+    lg={8}
+    sm={8}
+    xs={8}
+    className={styles.deleteDialogItemBlock}
+  >
+    {content}
+  </Grid>
 );
 
-const renderDownarrow = () => renderContentBlock(
+const renderDownarrow = () =>
+  renderContentBlock(
     <Grid container alignItems="center" justify="center">
-        <ArrowDownward />
+      <ArrowDownward />
     </Grid>
-);
+  );
 
 const renderNodeBlock = (node, title) => {
-    const port = node.port ? `:${node.port}` : '';
+  const port = node.port ? `:${node.port}` : '';
 
-    return renderContentBlock(
-        <Grid item xl={12} lg={12} sm={12} xs={12}>
-            <Paper className={styles.padding10}>
-                <Typography variant="title" gutterBottom>{ title }</Typography>
-                <Typography variant="body2" gutterBottom>{ `${node.host}${port}` }</Typography>
-            </Paper>
-        </Grid>
-    );
+  return renderContentBlock(
+    <Grid item xl={12} lg={12} sm={12} xs={12}>
+      <Paper className={styles.padding10}>
+        <Typography variant="title" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="body2" gutterBottom>{`${
+          node.host
+        }${port}`}</Typography>
+      </Paper>
+    </Grid>
+  );
 };
 
 const renderLocalBlock = node => renderNodeBlock(node, 'Local');
@@ -55,59 +67,74 @@ const renderTargetBlock = node => renderNodeBlock(node, 'Target');
  * Delete confirmation dialog
  */
 class DeleteDialog extends Component<Props> {
-    props: Props;
+  props: Props;
 
-    renderContent() {
-        const { isOpen, connection } = this.props;
+  renderContent() {
+    const { isOpen, connection } = this.props;
 
-        if (!isOpen) {
-            return null;
-        }
-
-        return <DialogContent>
-            <Grid container alignItems="center" direction="column">
-                { renderLocalBlock(connection.local) }
-                { renderDownarrow() }
-                { renderGateBlock(connection.gate) }
-                { renderDownarrow() }
-                { renderTargetBlock(connection.target) }    
-            </Grid>
-        </DialogContent>;
+    if (!isOpen) {
+      return null;
     }
 
-    render() {
-        const { connection, isOpen, onYesClick, onNoClick } = this.props;
+    return (
+      <DialogContent>
+        <Grid container alignItems="center" direction="column">
+          {renderLocalBlock(connection.local)}
+          {renderDownarrow()}
+          {renderGateBlock(connection.gate)}
+          {renderDownarrow()}
+          {renderTargetBlock(connection.target)}
+        </Grid>
+      </DialogContent>
+    );
+  }
 
-        if (!connection) {
-            return <div />;
-        }
+  render() {
+    const { connection, isOpen, onYesClick, onNoClick } = this.props;
 
-        return (
-            <div>
-                <Dialog
-                    open={isOpen}
-                    onClose={() => {}}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        Are you sure you want to delete  connection &quot;{ connection.name }&quot;?
-                    </DialogTitle>
-                    
-                    {this.renderContent()}
-                    
-                    <DialogActions>
-                        <Button onClick={() => {onNoClick(connection)}} color="primary">
-                            No
-                        </Button>
-                        <Button onClick={() => {onYesClick(connection)}} color="primary" autoFocus>
-                            Yes
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        );
+    if (!connection) {
+      return <div />;
     }
+
+    return (
+      <div>
+        <Dialog
+          open={isOpen}
+          onClose={() => {}}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Are you sure you want to delete connection &quot;
+            {connection.name}
+            &quot;?
+          </DialogTitle>
+
+          {this.renderContent()}
+
+          <DialogActions>
+            <Button
+              onClick={() => {
+                onNoClick(connection);
+              }}
+              color="primary"
+            >
+              No
+            </Button>
+            <Button
+              onClick={() => {
+                onYesClick(connection);
+              }}
+              color="primary"
+              autoFocus
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 }
 
 export default DeleteDialog;

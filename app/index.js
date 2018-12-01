@@ -5,7 +5,6 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import Connection from './components/home/Connection';
-import ConnectionAuth from './models/ConnectionAuth';
 
 const application = require('electron').remote.require('./backend');
 const config = require('./config');
@@ -16,7 +15,6 @@ const connections = configuration.connections.map(src => {
     ...src,
     isActive: false
   });
-  connection.auth = Object.assign(new ConnectionAuth(), connection.auth);
 
   return connection;
 });

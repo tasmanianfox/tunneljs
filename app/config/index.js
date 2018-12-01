@@ -6,7 +6,7 @@ let config = null;
 const getConfigDir = () => `${os.homedir}/.tunneljs`;
 const getConfigPath = () => `${getConfigDir()}/config.json`;
 
-const { Connection, createSampleConnection } = require('../models/Connection');
+const { createSampleConnection } = require('../models/connection');
 
 const initConfig = () => {
   if (!fs.existsSync(getConfigPath())) {
@@ -19,9 +19,6 @@ const initConfig = () => {
 
   const rawdata = fs.readFileSync(getConfigPath());
   config = JSON.parse(rawdata);
-  config.connections = config.connections.map(connection =>
-    Object.assign(new Connection(), connection)
-  );
 };
 
 const loadConfig = () => {

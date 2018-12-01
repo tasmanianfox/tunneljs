@@ -1,5 +1,6 @@
+// @flow
 import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
-import { Connection } from '../types/connection';
+import { Connection } from '../models/connection';
 
 export type appStateType = {
   +connections: Array<Connection>

@@ -1,10 +1,11 @@
 // @flow
+
 import React, { Component } from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import DeleteDialog from './DeleteDialog';
 
-import { Connection } from '../../types/connection';
+import { Connection } from '../../models/connection';
 import { DialogDeleteConnectionState } from '../../reducers/dialogDeleteConnection';
 import ConnectionsList from './ConnectionsList';
 

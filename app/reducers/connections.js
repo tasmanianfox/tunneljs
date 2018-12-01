@@ -1,3 +1,4 @@
+// @flow
 import {
   ADD_CONNECTION,
   DELETE_DIALOG_YES_CLICK,
@@ -7,7 +8,7 @@ import {
 import { SAVE_CONNECTION } from '../actions/page_edit';
 import type { Action } from './types';
 
-import { createNewConnection } from '../models/Connection';
+import { createNewConnection } from '../models/connection';
 
 const config = require('../config');
 

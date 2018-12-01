@@ -15,7 +15,7 @@ import routes from '../../constants/routes.json';
 
 import styles from './Home.css';
 
-import { Connection as ConnectionType } from '../../types/connection';
+import { Connection as ConnectionType } from '../../models/connection';
 
 const application = require('electron').remote.require('./backend');
 

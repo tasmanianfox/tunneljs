@@ -2495,7 +2495,7 @@ camelcase-keys@^4.0.0:
     map-obj "^2.0.0"
     quick-lru "^1.0.0"
 
-camelcase@^2.0.0:
+camelcase@^2.0.0, camelcase@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
   integrity sha1-fB0W1nmhu+WcoCys7PsBHiAfWh8=
@@ -2743,7 +2743,7 @@ cli-width@^2.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
   integrity sha1-/xnt6Kml5XkyQUewwR8PvLq+1jk=
 
-cliui@^3.2.0:
+cliui@^3.0.3, cliui@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-3.2.0.tgz#120601537a916d29940f934da3b48d585a39213d"
   integrity sha1-EgYBU3qRbSmUD5NNo7SNWFo5IT0=
@@ -7475,11 +7475,6 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
-lodash.defaults@^4.1.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
-  integrity sha1-0JF4cW/+pN3p5ft7N/bwgCJ0WAw=
-
 lodash.escape@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/lodash.escape/-/lodash.escape-4.0.1.tgz#c9044690c21e04294beaa517712fded1fa88de98"
@@ -8528,6 +8523,16 @@ onetime@^2.0.0:
   integrity sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ=
   dependencies:
     mimic-fn "^1.0.0"
+
+open-ssh-tunnel@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/open-ssh-tunnel/-/open-ssh-tunnel-0.3.1.tgz#c7a3e68a3a5c288b6c99810392a66b5f27a5f322"
+  integrity sha1-x6PmijpcKItsmYEDkqZrXyel8yI=
+  dependencies:
+    co "^4.6.0"
+    debug "^2.2.0"
+    ssh2 "^0.4.12"
+    yargs "^3.30.0"
 
 opener@^1.4.3:
   version "1.5.1"
@@ -9904,6 +9909,16 @@ readable-stream@^3.0.6:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
+readable-stream@~1.0.0:
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.0.34.tgz#125820e34bc842d2f2aaafafe4c2916ee32c157c"
+  integrity sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.1"
+    isarray "0.0.1"
+    string_decoder "~0.10.x"
+
 readable-stream@~1.1.9:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
@@ -10919,21 +10934,22 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
-ssh2-streams@~0.1.15:
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/ssh2-streams/-/ssh2-streams-0.1.20.tgz#51118d154555df5469ee1f67e0cf1e7e8a2c0e3a"
-  integrity sha1-URGNFUVV31Rp7h9n4M8efoosDjo=
+ssh2-streams@~0.0.22:
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/ssh2-streams/-/ssh2-streams-0.0.23.tgz#aeef30831bb5fc4af6aa3f6d0a261a413531612b"
+  integrity sha1-ru8wgxu1/Er2qj9tCiYaQTUxYSs=
   dependencies:
     asn1 "~0.2.0"
-    semver "^5.1.0"
+    readable-stream "~1.0.0"
     streamsearch "~0.1.2"
 
-ssh2@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/ssh2/-/ssh2-0.5.4.tgz#1bf6b6b28c96eaef267f4d6c46a5a2517a599e27"
-  integrity sha1-G/a2soyW6u8mf01sRqWiUXpZnic=
+ssh2@^0.4.12:
+  version "0.4.15"
+  resolved "https://registry.yarnpkg.com/ssh2/-/ssh2-0.4.15.tgz#07c6f4106d9f7b6ea6e4df636c6c53f1f9817ff8"
+  integrity sha1-B8b0EG2fe26m5N9jbGxT8fmBf/g=
   dependencies:
-    ssh2-streams "~0.1.15"
+    readable-stream "~1.0.0"
+    ssh2-streams "~0.0.22"
 
 sshpk@^1.7.0:
   version "1.15.2"
@@ -11657,15 +11673,6 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
-
-tunnel-ssh@^4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/tunnel-ssh/-/tunnel-ssh-4.1.4.tgz#b301f7733c73dcea1616466b9c87b607f4958b45"
-  integrity sha512-CjBqboGvAbM7iXSX2F95kzoI+c2J81YkrHbyyo4SWNKCzU6w5LfEvXBCHu6PPriYaNvfhMKzD8bFf5Vl14YTtg==
-  dependencies:
-    debug "2.6.9"
-    lodash.defaults "^4.1.0"
-    ssh2 "0.5.4"
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
@@ -12405,6 +12412,11 @@ win-release@^1.0.0:
   dependencies:
     semver "^5.0.1"
 
+window-size@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.4.tgz#f8e1aa1ee5a53ec5bf151ffa09742a6ad7697876"
+  integrity sha1-+OGqHuWlPsW/FR/6CXQqatdpeHY=
+
 window-size@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.2.0.tgz#b4315bb4214a3d7058ebeee892e13fa24d98b075"
@@ -12513,7 +12525,7 @@ xtend@~2.1.1:
   dependencies:
     object-keys "~0.4.0"
 
-y18n@^3.2.1:
+y18n@^3.2.0, y18n@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
   integrity sha1-bRX7qITAhnnA136I53WegR4H+kE=
@@ -12597,6 +12609,19 @@ yargs@^11.0.0:
     which-module "^2.0.0"
     y18n "^3.2.1"
     yargs-parser "^9.0.2"
+
+yargs@^3.30.0:
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.32.0.tgz#03088e9ebf9e756b69751611d2a5ef591482c995"
+  integrity sha1-AwiOnr+edWtpdRYR0qXvWRSCyZU=
+  dependencies:
+    camelcase "^2.0.1"
+    cliui "^3.0.3"
+    decamelize "^1.1.1"
+    os-locale "^1.4.0"
+    string-width "^1.0.1"
+    window-size "^0.1.4"
+    y18n "^3.2.0"
 
 yargs@^4.2.0:
   version "4.8.1"

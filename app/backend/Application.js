@@ -1,5 +1,5 @@
 const fs = require('fs');
-const tunnelSsh = require('tunnel-ssh');
+const openSshTunnel = require('open-ssh-tunnel');
 
 const Connection = require('./Connection');
 const connectionAuth = require('../models/connectionAuth');
@@ -12,7 +12,7 @@ class Application {
     this.reduxStore = reduxStore;
   }
 
-  setupConnection(model) {
+  async setupConnection(model) {
     const { auth } = model;
     let connection = null;
 
@@ -30,26 +30,31 @@ class Application {
     }
 
     const config = {
-      username: model.auth.user,
       host: model.gate.host,
-      port: model.gate.port || 22,
-      dstHost: model.target.host,
+      port: model.gate.port,
+      username: model.auth.user,
+      srcPort: model.target.port,
+      srcAddr: model.target.host,
       dstPort: model.target.port,
-      localHost: model.local.host || 'localhost',
+      dstAddr: model.target.host,
+      readyTimeout: 20000,
+      forwardTimeout: 20000,
       localPort: model.local.port,
-      keepAlive: true
+      localAddr: model.local.host
     };
 
     if (connectionAuth.isMethodPassword(auth) === true) {
       Object.assign(config, { password: auth.password });
     } else if (connectionAuth.isMethodPrivateKey(auth) === true) {
       Object.assign(config, {
-        privateKey: fs.readFileSync(model.auth.privateKeyPath),
-        secret: null // needs to be implemented in config
+        privateKey: fs.readFileSync(model.auth.privateKeyPath)
       });
     }
 
-    connection.tunnel = tunnelSsh(config);
+    const tunnel = await openSshTunnel(config);
+    connection.tunnel = tunnel;
+
+    console.log(tunnel);
   }
 
   terminateConnection(model) {

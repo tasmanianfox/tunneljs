@@ -45,10 +45,10 @@ export default class Connection extends Component<Props> {
     return '';
   }
 
-  onConnectClick() {
+  async onConnectClick() {
     const { connection, onSshConnectionEstabilished } = this.props;
 
-    application.getApplication().setupConnection(connection);
+    await application.getApplication().setupConnection(connection);
     onSshConnectionEstabilished(connection);
   }
 

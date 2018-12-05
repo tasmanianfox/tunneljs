@@ -21,3 +21,7 @@
 .connectionActive {
   background-color: lightgreen !important;
 }
+
+.connectionError {
+  background-color: #ff9696 !important;
+}

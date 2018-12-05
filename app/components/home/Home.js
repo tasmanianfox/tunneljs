@@ -15,7 +15,9 @@ type Props = {
   deleteConnectionClick: () => void,
   deleteDialog: DialogDeleteConnectionState,
   onDeleteDialogYesClick: () => void,
-  onDeleteDialogNoClick: () => void
+  onDeleteDialogNoClick: () => void,
+  sshConnectionError: Connection => void,
+  sshConnectionEstabilished: Connection => void
 };
 
 export default class Home extends Component<Props> {
@@ -29,6 +31,7 @@ export default class Home extends Component<Props> {
       deleteConnectionClick,
       onDeleteDialogYesClick,
       onDeleteDialogNoClick,
+      sshConnectionError,
       sshConnectionEstabilished,
       sshConnectionTerminated
     } = this.props;
@@ -39,6 +42,7 @@ export default class Home extends Component<Props> {
           addConnection={addConnection}
           connections={connections}
           deleteConnectionClick={deleteConnectionClick}
+          sshConnectionError={sshConnectionError}
           sshConnectionEstabilished={sshConnectionEstabilished}
           sshConnectionTerminated={sshConnectionTerminated}
         />

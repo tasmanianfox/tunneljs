@@ -8,16 +8,13 @@ import AddIcon from '@material-ui/icons/Add';
 import styles from './Home.css';
 import Connection from './Connection';
 
-export type ConnectionType = {
-  local: NetworkNode,
-  gate: NetworkNode,
-  target: NetworkNode
-};
+import { Connection as ConnectionType } from '../../models/connection';
 
 type Props = {
   addConnection: () => void,
   +connections: Array<ConnectionType>,
   deleteConnectionClick: ConnectionType => void,
+  sshConnectionError: ConnectionType => void,
   sshConnectionEstabilished: ConnectionType => void,
   sshConnectionTerminated: ConnectionType => void
 };
@@ -48,6 +45,7 @@ export default class ConnectionsList extends Component<Props> {
     const {
       connections,
       deleteConnectionClick,
+      sshConnectionError,
       sshConnectionEstabilished,
       sshConnectionTerminated
     } = this.props;
@@ -57,6 +55,9 @@ export default class ConnectionsList extends Component<Props> {
         connection={connection}
         onRemoveClick={() => {
           deleteConnectionClick(connection);
+        }}
+        onSshConnectionError={(argConnection, errorMessage) => {
+          sshConnectionError(argConnection, errorMessage);
         }}
         onSshConnectionEstabilished={() => {
           sshConnectionEstabilished(connection);

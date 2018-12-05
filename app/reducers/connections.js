@@ -2,6 +2,7 @@
 import {
   ADD_CONNECTION,
   DELETE_DIALOG_YES_CLICK,
+  SSH_CONNECTION_ERROR,
   SSH_CONNECTION_ESTABILISHED,
   SSH_CONNECTION_TERMINATED
 } from '../actions/home';
@@ -48,7 +49,21 @@ const switchConnection = (state, enabledConnection, isActive) => {
 
   newState = newState.map(connection => {
     if (connection.id === enabledConnection.id) {
-      Object.assign(connection, { isActive });
+      Object.assign(connection, { isActive, error: null });
+    }
+
+    return connection;
+  });
+
+  return newState;
+};
+
+const setConnectionError = (state, errorConnection, errorMessage) => {
+  let newState = Object.assign([], state);
+
+  newState = state.map(connection => {
+    if (connection.id === errorConnection.id) {
+      Object.assign(connection, { error: errorMessage, isActive: false });
     }
 
     return connection;
@@ -65,6 +80,8 @@ export default function connections(state: AppState = 0, action: Action) {
       return deleteConnection(state, action.connection);
     case SAVE_CONNECTION:
       return saveConnection(state, action.connection);
+    case SSH_CONNECTION_ERROR:
+      return setConnectionError(state, action.connection, action.errorMessage);
     case SSH_CONNECTION_ESTABILISHED:
       return switchConnection(state, action.connection, true);
     case SSH_CONNECTION_TERMINATED:

@@ -5,6 +5,7 @@ import { AUTH_METHOD_PASSWORD } from './connectionAuth';
 export type Connection = {
   id: string,
   auth: ConnectionAuth,
+  error: ?string,
   name: string,
   local: NetworkNode,
   gate: NetworkNode,

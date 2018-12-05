@@ -15,6 +15,7 @@ class Application {
   async setupConnection(model) {
     const { auth } = model;
     let connection = null;
+    let isNewConnection = false;
 
     this.connections.forEach(testConnection => {
       if (testConnection.model.id === model.id) {
@@ -26,7 +27,7 @@ class Application {
       Object.assign(connection, { model });
     } else {
       connection = new Connection(model);
-      this.connections.push(connection);
+      isNewConnection = true;
     }
 
     const config = {
@@ -54,7 +55,9 @@ class Application {
     const tunnel = await openSshTunnel(config);
     connection.tunnel = tunnel;
 
-    console.log(tunnel);
+    if (isNewConnection) {
+      this.connections.push(connection);
+    }
   }
 
   terminateConnection(model) {

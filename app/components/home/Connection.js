@@ -11,6 +11,7 @@ import PowerIcon from '@material-ui/icons/Power';
 import PowerOffIcon from '@material-ui/icons/PowerOff';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import routes from '../../constants/routes.json';
 
 import styles from './Home.css';
@@ -22,6 +23,7 @@ const application = require('electron').remote.require('./backend');
 type Props = {
   connection: ConnectionType,
   onRemoveClick: ConnectionType => {},
+  onSshConnectionError: (ConnectionType, string) => {},
   onSshConnectionEstabilished: ConnectionType => {},
   onSshConnectionTerminated: ConnectionType => {}
 };
@@ -38,6 +40,9 @@ export default class Connection extends Component<Props> {
   getPaperColor() {
     const { connection } = this.props;
 
+    if (connection.error) {
+      return styles.connectionError;
+    }
     if (connection.isActive) {
       return styles.connectionActive;
     }
@@ -46,10 +51,18 @@ export default class Connection extends Component<Props> {
   }
 
   async onConnectClick() {
-    const { connection, onSshConnectionEstabilished } = this.props;
+    const {
+      connection,
+      onSshConnectionEstabilished,
+      onSshConnectionError
+    } = this.props;
 
-    await application.getApplication().setupConnection(connection);
-    onSshConnectionEstabilished(connection);
+    try {
+      await application.getApplication().setupConnection(connection);
+      onSshConnectionEstabilished(connection);
+    } catch (e) {
+      onSshConnectionError(connection, e.message);
+    }
   }
 
   onDisconnectClick() {
@@ -91,7 +104,7 @@ export default class Connection extends Component<Props> {
     );
   }
 
-  render() {
+  renderContent() {
     const { connection, onRemoveClick } = this.props;
     const { auth, name, gate } = connection;
 
@@ -144,5 +157,20 @@ export default class Connection extends Component<Props> {
         </Paper>
       </Grid>
     );
+  }
+
+  render() {
+    const { connection } = this.props;
+    const content = this.renderContent();
+
+    if (connection.error) {
+      return (
+        <Tooltip title={connection.error} aria-label="Add">
+          {content}
+        </Tooltip>
+      );
+    }
+
+    return content;
   }
 }

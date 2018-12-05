@@ -4,17 +4,20 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
-import Connection from './components/home/Connection';
 
 const application = require('electron').remote.require('./backend');
 const config = require('./config');
 
 const configuration = config.loadConfig();
 const connections = configuration.connections.map(src => {
-  const connection = Object.assign(new Connection(), {
-    ...src,
-    isActive: false
-  });
+  const connection = Object.assign(
+    {},
+    {
+      ...src,
+      error: null,
+      isActive: false
+    }
+  );
 
   return connection;
 });

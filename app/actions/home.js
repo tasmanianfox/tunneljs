@@ -5,6 +5,7 @@ export const DELETE_CONNECTION_CLICK = 'DELETE_CONNECTION_CLICK';
 export const DELETE_DIALOG_YES_CLICK = 'DELETE_DIALOG_YES_CLICK';
 export const DELETE_DIALOG_NO_CLICK = 'DELETE_DIALOG_NO_CLICK';
 export const EDIT_CONNECTION = 'EDIT_CONNECTION';
+export const SSH_CONNECTION_ERROR = 'SSH_CONNECTION_ERROR';
 export const SSH_CONNECTION_ESTABILISHED = 'SSH_CONNECTION_ESTABILISHED';
 export const SSH_CONNECTION_TERMINATED = 'SSH_CONNECTION_TERMINATED';
 
@@ -34,6 +35,12 @@ export const onDeleteDialogNoClick = connection => ({
 export const sshConnectionEstabilished = connection => ({
   connection,
   type: SSH_CONNECTION_ESTABILISHED
+});
+
+export const sshConnectionError = (connection, errorMessage) => ({
+  connection,
+  errorMessage,
+  type: SSH_CONNECTION_ERROR
 });
 
 export const sshConnectionTerminated = connection => ({

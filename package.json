@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.14.0",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "tunneljs",
+  "productName": "TunnelJS",
+  "version": "0.1.0",
+  "description": "A SSH tunnel manager application with GUI",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
@@ -88,29 +88,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/tasmanianfox/tunneljs.git"
   },
   "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
+    "name": "Sergei Belyakov",
+    "email": "tasmanianfox@gmail.com",
+    "url": "https://github.com/tasmanianfox"
   },
-  "license": "MIT",
+  "license": "GNU GPL v3.0",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/tasmanianfox/tunneljs/issues"
   },
   "keywords": [
     "electron",
-    "boilerplate",
     "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "ssh"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/tasmanianfox/tunneljs#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
